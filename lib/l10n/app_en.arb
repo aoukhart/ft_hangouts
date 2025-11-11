@@ -1,0 +1,17 @@
+{
+    "colorSwitch" : "Choose your app color",
+    "languageSwitch" : "Choose your language",
+    "addContact" : "Add",
+    "deleteContact" : "remove",
+    "deleteAll" : "remove All",
+    "contactInfo" : "Contact Info",
+    "name" : "Name",
+    "nameHint" : "Enter your contact name",
+    "phoneNumber" : "Phone Number",
+    "phoneNumberHint" : "Enter phone number",
+    "bio" : "Biography",
+    "bioHint" : "Add a biography",
+    "submit" : "Submit",
+    "writeMessage" : "Write a message",
+    "phone":"Phone"
+}
