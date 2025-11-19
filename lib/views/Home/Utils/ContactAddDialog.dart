@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:testing/Datasource/DataHelper.dart';
-import 'package:testing/l10n/app_localizations.dart';
+import 'package:ft_hangouts/Datasource/DataHelper.dart';
+import 'package:ft_hangouts/l10n/app_localizations.dart';
 
 Future ContactAddDialog(context, Database db) {
   TextEditingController NameCtrl = TextEditingController();
@@ -15,6 +15,7 @@ Future ContactAddDialog(context, Database db) {
     barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
+      scrollable: true,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -26,14 +27,14 @@ Future ContactAddDialog(context, Database db) {
         ],
       ),
       content: Container(
-        height: 300,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: TextField(
                 controller: NameCtrl,
+                maxLength: 18,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintStyle: TextStyle(fontSize: 13),
@@ -49,9 +50,9 @@ Future ContactAddDialog(context, Database db) {
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[+0-9]')),
-                  // FilteringTextInputFormatter.digitsOnly,
                 ],
                 controller: PhoneCtrl,
+                maxLength: 18,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintStyle: TextStyle(fontSize: 13),
@@ -65,6 +66,8 @@ Future ContactAddDialog(context, Database db) {
               padding: const EdgeInsets.only(top: 10),
               child: TextField(
                 controller: BioCtrl,
+                maxLines: 2,
+                maxLength: 35,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintStyle: TextStyle(fontSize: 13),
@@ -74,7 +77,6 @@ Future ContactAddDialog(context, Database db) {
                 ),
               ),
             ),
-            SizedBox(height: 40),
             TextButton(
               onPressed: () async {
                 if (NameCtrl.text.isNotEmpty &&

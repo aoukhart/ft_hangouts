@@ -1,10 +1,8 @@
 import 'package:another_telephony/telephony.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
-import 'package:testing/Datasource/DataHelper.dart';
-import 'package:testing/main.dart';
-import 'package:testing/model%20/Contact.dart';
-import 'package:testing/views/Home/HomePage.dart';
+import 'package:ft_hangouts/Datasource/DataHelper.dart';
+import 'package:ft_hangouts/model%20/Contact.dart';
 
 interface class Message {
   late String content;
@@ -26,31 +24,13 @@ class _ChatpageState extends State<Chatpage> {
   @override
   void initState() {
     super.initState();
-    // DataHelper.telephony.listenIncomingSms(
-    //   onNewMessage: (message) {
-    //     if (!mounted) return;
-    //     print('receiveed');
-
-    //     if (message.address != widget.user.phone) return;
-    //     setState(() {
-    //       widget.user.time = message.date!;
-    //       DataHelper.setTime(widget.user);
-    //     });
-    //   },
-    //   listenInBackground: false,
-    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    // ChatUser user1 = ChatUser(
-    //   id: widget.user.id.toString(),
-    //   firstName: widget.user.name,
-    // );
     return FutureBuilder(
       future: DataHelper.getMessages(widget.user),
       builder: (context, snapshot) {
-        // print(snapshot.data)
         if (snapshot.hasData) {
           return DashChat(
             ctxt: context,
@@ -89,7 +69,6 @@ class _ChatpageState extends State<Chatpage> {
               });
             },
             messages: snapshot.data!.map((e) {
-              // print(e.subject.toString());
               return e.address.toString() != 'null'
                   ? ChatMessage(
                       user: ChatUser(id: widget.user.id.toString()),

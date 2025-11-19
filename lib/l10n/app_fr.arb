@@ -13,5 +13,10 @@
     "bioHint" : "Ajoutez une biographie",
     "submit" : "Ajoutez",
     "writeMessage" : "Ecrivez votre message",
-    "phone":"Num"
+    "phone":"Num",
+    "lastTimeBackgroundMsg" : "Dernière mise en arrière-plan",
+    "seconds":"secondes",
+    "minutes":"minutes",
+    "hours":"heures",
+    "noContactText": "Ajoutez un contact et commencez une conversation !"
 }

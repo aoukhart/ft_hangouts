@@ -52,4 +52,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phone => 'Phone';
+
+  @override
+  String get lastTimeBackgroundMsg => 'Last time app backgrounded';
+
+  @override
+  String get seconds => 'seconds';
+
+  @override
+  String get hours => 'hours';
+
+  @override
+  String get noContactText => 'Add a contact and Start a conversation !';
 }

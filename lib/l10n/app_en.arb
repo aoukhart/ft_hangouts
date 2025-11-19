@@ -13,5 +13,9 @@
     "bioHint" : "Add a biography",
     "submit" : "Submit",
     "writeMessage" : "Write a message",
-    "phone":"Phone"
+    "phone":"Phone",
+    "lastTimeBackgroundMsg" : "Last time app backgrounded",
+    "seconds":"seconds",
+    "hours":"hours",
+    "noContactText": "Add a contact and Start a conversation !"
 }

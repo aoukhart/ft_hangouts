@@ -1,15 +1,11 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:another_telephony/telephony.dart';
-import 'package:intl/intl.dart' show DateFormat;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:testing/main.dart';
-import 'package:testing/model%20/Contact.dart';
-import 'package:testing/views/Contact/ChatPage.dart';
+import 'package:ft_hangouts/model%20/Contact.dart';
 
 class DataHelper {
   static Database? _db;

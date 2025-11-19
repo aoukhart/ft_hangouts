@@ -184,6 +184,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Phone'**
   String get phone;
+
+  /// No description provided for @lastTimeBackgroundMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Last time app backgrounded'**
+  String get lastTimeBackgroundMsg;
+
+  /// No description provided for @seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'seconds'**
+  String get seconds;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get hours;
+
+  /// No description provided for @noContactText.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a contact and Start a conversation !'**
+  String get noContactText;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

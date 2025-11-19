@@ -1,4 +1,4 @@
-name: testing
+name: ft_hangouts
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
@@ -19,6 +19,10 @@ dependencies:
   image_picker: ^1.0.8
   flutter_localizations:
     sdk: flutter
+  flutter_local_notifications: ^19.5.0
+  timezone: ^0.10.1
+  fluttertoast: ^9.0.0
+  lottie: ^3.3.2
 
 dependency_overrides: 
   intl: ^0.19.0
@@ -47,9 +51,9 @@ flutter:
   generate: true
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/appLogo.png
-     - assets/appLogoSmall.png
-     - assets/default_avatar.jpg
+     - assets/
+    #  - assets/appLogoSmall.png
+    #  - assets/default_avatar.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

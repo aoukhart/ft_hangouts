@@ -52,4 +52,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phone => 'Num';
+
+  @override
+  String get lastTimeBackgroundMsg => 'Dernière mise en arrière-plan';
+
+  @override
+  String get seconds => 'secondes';
+
+  @override
+  String get hours => 'heures';
+
+  @override
+  String get noContactText => 'Ajoutez un contact et commencez une conversation !';
 }

@@ -1,25 +1,13 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:testing/model%20/Contact.dart';
-import 'package:testing/views/Contact/ChatPage.dart';
-import 'package:path/path.dart';
+import 'package:ft_hangouts/model%20/Contact.dart';
 
 Widget delete() {
   return Row(children: [Text("delete")]);
 }
 
 ContactTile(context, User user) {
-  TapDownDetails _tapPostion;
   return ListTile(
-    // onTap: () {
-    //   _tapPostion = TapDownDetails();
-    // },
-    // onLongPress: () => showMenu(
-    //   positionBuilder: (context, constraints) =>
-    //       RelativeRect.fromLTRB(300, constraints., 400, bottom),
-    //   context: context,
-    //   items: [PopupMenuItem(child: Text("Delete"), onTap: () {})],
-    // ),
     trailing: SizedBox(
       width: 55,
       child: Row(
