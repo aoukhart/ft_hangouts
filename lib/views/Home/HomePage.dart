@@ -30,21 +30,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   _getUsers() async {
     List<User> userTmp = [];
-    await widget.db
-        .query(
-          'users',
-          columns: ['id', 'name', 'phone', 'bio', 'time', 'image'],
-          orderBy: 'time DESC',
-        )
-        .then((value) {
-          if (value.isEmpty) return;
-          value.forEach((element) {
-            userTmp.add(User.fromMap(element));
-          });
-        });
+    await DataHelper.getUsers().then((value) {
+      if (value == null) return;
+      value.forEach((element) {
+        userTmp.add(User.fromMap(element));
+      });
+    });
+    if (userTmp.isEmpty) return;
     setState(() {
       // print(" >>>>>>>>>>> GETTING USERS <<<<<<<<<<<<");
-      if (userTmp.isEmpty) return;
       Users = userTmp;
     });
   }
@@ -56,16 +50,23 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     DataHelper.telephony.listenIncomingSms(
       onNewMessage: (message) {
         // print("Message received in main page ${message.body}\n");
+        final index = Users.indexOf(
+          Users.where((element) => element.phone == message.address).first,
+        );
+        // {
+        print(">>>>>>> msg from  : ${index} <<<<<<<");
         setState(() {
-          final index = Users.indexOf(
-            Users.where((element) => element.phone == message.address).first,
-          );
+          int selectedId = Users[contactIndex != -1 ? contactIndex : 0].id!;
           updateUser(index, message);
           Users.sort((a, b) {
             return b.time.compareTo(a.time);
           });
+          if (isClicked) {
+            contactIndex = Users.indexOf(
+              Users.where((element) => element.id == selectedId).first,
+            );
+          }
         });
-        // print(">>>>> DONE ${mounted} <<<<<");
       },
       onBackgroundMessage: backgrounMessageHandler,
     );
@@ -83,7 +84,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     // seconds > if less than a minute
     // minutes seconds > if less than a hour
     // hour minutes > if less than a day
-    //
     if (diff.inSeconds < 60) {
       return "${diff.inSeconds} ${AppLocalizations.of(context)!.seconds}";
     } else if (diff.inMinutes < 60) {
@@ -95,20 +95,18 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // TODO: implement didChangeAppLifecycleState
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
       lastBackgrounded = DateTime.now();
     }
     if (state == AppLifecycleState.resumed && lastBackgrounded != null) {
-      //toast
-      // print("Toastaaaa Last time app backgrounded ${_formatTime()}");
       Fluttertoast.showToast(
         msg:
             "${AppLocalizations.of(context)!.lastTimeBackgroundMsg} ${_formatTime()}",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
       );
+      lastBackgrounded = null;
     }
   }
 
@@ -120,23 +118,24 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    late User x = Users[contactIndex];
     return Scaffold(
       drawer: !isClicked
           ? Drawer(
+              elevation: 20,
               child: ListView(
                 children: [
                   DrawerHeader(
                     margin: EdgeInsets.all(0),
                     padding: EdgeInsets.all(0),
-                    child: Container(),
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        // repeat: ImageRepeat.repeatX,
                         image: AssetImage("assets/appLogo.png"),
                         fit: BoxFit.fitWidth,
                       ),
                       color: Colors.black,
                     ),
+                    child: Container(),
                   ),
                   ListTile(
                     title: Text(AppLocalizations.of(context)!.colorSwitch),
@@ -206,6 +205,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     isClicked = false;
                     Users[contactIndex].newMsg = false;
                     contactIndex = -1;
+                    // selected;
                     Users.sort((a, b) {
                       return b.time.compareTo(a.time);
                     });
@@ -220,10 +220,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     PopupMenuItem(
                       onTap: () async {
                         final res = await ContactAddDialog(context, widget.db);
-                        // setState(() {
                         if (res == null) return;
                         if (res > Users.length) _getUsers();
-                        // });
                       },
                       child: Row(
                         children: [
@@ -233,7 +231,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       ),
                     ),
                     PopupMenuItem(
-                      onTap: () {},
+                      onTap: () async {
+                        if (Users.isEmpty) return;
+                        final res = await DataHelper.deleteAll();
+                        if (res > 0) {
+                          setState(() {
+                            Users.clear();
+                          });
+                        }
+                      },
                       child: Row(
                         children: [
                           Icon(Icons.delete, color: Colors.black),
@@ -246,8 +252,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               ]
             : null,
       ),
-      body: !isClicked
-          ? Padding(
+      body: isClicked
+          ? Chatpage(user: Users[contactIndex])
+          : Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Users.length == 0
                   ? Center(
@@ -258,10 +265,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             padding: const EdgeInsets.only(
                               left: 30,
                               right: 30,
-                              top: 10,
-                              bottom: 35,
+                              // top: 10,
+                              // bottom: 15,
                             ),
-                            child: Lottie.asset("assets/EmptyState.json"),
+                            child: Lottie.asset(
+                              "assets/EmptyState.json",
+                              height: MediaQuery.heightOf(context) * 0.4,
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -271,6 +281,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               textAlign: TextAlign.center,
                               AppLocalizations.of(context)!.noContactText,
                               style: TextStyle(
+                                color: Color.fromRGBO(111, 109, 109, 1),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
                               ),
@@ -318,7 +329,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               isClicked = true;
                               contactIndex = index;
                             });
-                            print(isClicked);
                           },
                           child: ContactTile(context, Users[index]),
                         ),
@@ -327,8 +337,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           Padding(padding: EdgeInsetsGeometry.all(7)),
                       itemCount: Users.length,
                     ),
-            )
-          : Chatpage(user: Users[contactIndex]),
+            ),
     );
   }
 }

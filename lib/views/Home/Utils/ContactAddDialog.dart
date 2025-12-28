@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:ft_hangouts/Datasource/DataHelper.dart';
 import 'package:ft_hangouts/l10n/app_localizations.dart';
@@ -26,6 +25,8 @@ Future ContactAddDialog(context, Database db) {
           ),
         ],
       ),
+      titlePadding: EdgeInsets.only(top: 15, left: 25, right: 15, bottom: 0),
+      contentPadding: EdgeInsets.only(bottom: 3, left: 20, right: 20, top: 10),
       content: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,6 +66,13 @@ Future ContactAddDialog(context, Database db) {
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: TextField(
+                buildCounter:
+                    (
+                      context, {
+                      required currentLength,
+                      required isFocused,
+                      required maxLength,
+                    }) => null,
                 controller: BioCtrl,
                 maxLines: 2,
                 maxLength: 35,
@@ -77,22 +85,39 @@ Future ContactAddDialog(context, Database db) {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () async {
-                if (NameCtrl.text.isNotEmpty &&
-                    PhoneCtrl.text.isNotEmpty &&
-                    BioCtrl.text.isNotEmpty) {
-                  res = await DataHelper.addUser(NameCtrl, PhoneCtrl, BioCtrl);
-                  res == -1
-                      ? Navigator.pop(context, -1)
-                      : Navigator.pop(context, res);
-                }
-              },
-              child: Text(AppLocalizations.of(context)!.submit),
-            ),
+            // TextButton(
+            //   onPressed: () async {
+            //     if (NameCtrl.text.isNotEmpty &&
+            //         PhoneCtrl.text.isNotEmpty &&
+            //         BioCtrl.text.isNotEmpty) {
+            //       res = await DataHelper.addUser(NameCtrl, PhoneCtrl, BioCtrl);
+            //       res == -1
+            //           ? Navigator.pop(context, -1)
+            //           : Navigator.pop(context, res);
+            //     }
+            //   },
+            //   child: Text(AppLocalizations.of(context)!.submit),
+            // ),
           ],
         ),
       ),
+      actionsAlignment: MainAxisAlignment.center,
+      actionsPadding: EdgeInsets.all(7),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            if (NameCtrl.text.isNotEmpty &&
+                PhoneCtrl.text.isNotEmpty &&
+                BioCtrl.text.isNotEmpty) {
+              res = await DataHelper.addUser(NameCtrl, PhoneCtrl, BioCtrl);
+              res == -1
+                  ? Navigator.pop(context, -1)
+                  : Navigator.pop(context, res);
+            }
+          },
+          child: Text(AppLocalizations.of(context)!.submit),
+        ),
+      ],
     ),
   );
 }

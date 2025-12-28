@@ -64,4 +64,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noContactText => 'Ajoutez un contact et commencez une conversation !';
+
+  @override
+  String get telephonyInitErrorMsg => 'Veuillez Autoriser l\'appli !\nrafrechissez votre app et reesseyez';
 }

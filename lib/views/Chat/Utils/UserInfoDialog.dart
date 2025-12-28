@@ -35,14 +35,7 @@ Future UserInfoDialog(User user, ctxt) async {
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            // constraints: BoxConstraints(
-            //   minWidth: MediaQuery.widthOf(context) * 0.8,
-            //   maxWidth: MediaQuery.widthOf(context) * 0.8,
-            //   minHeight: MediaQuery.heightOf(context) * 0.44,
-            //   maxHeight: MediaQuery.heightOf(context) * 0.44,
-            // ),
             scrollable: true,
-
             contentPadding: EdgeInsets.only(
               top: 10,
               left: 20,

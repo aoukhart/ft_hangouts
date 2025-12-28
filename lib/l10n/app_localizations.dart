@@ -208,6 +208,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add a contact and Start a conversation !'**
   String get noContactText;
+
+  /// No description provided for @telephonyInitErrorMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'This app needs autorisation !!\nreset your app and retry.'**
+  String get telephonyInitErrorMsg;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

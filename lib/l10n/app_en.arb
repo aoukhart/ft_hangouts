@@ -17,5 +17,6 @@
     "lastTimeBackgroundMsg" : "Last time app backgrounded",
     "seconds":"seconds",
     "hours":"hours",
-    "noContactText": "Add a contact and Start a conversation !"
+    "noContactText": "Add a contact and Start a conversation !",
+    "telephonyInitErrorMsg" : "This app needs autorisation !!\nreset your app and retry."
 }

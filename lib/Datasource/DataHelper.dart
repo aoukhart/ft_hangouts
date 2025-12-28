@@ -2,6 +2,9 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:another_telephony/telephony.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ft_hangouts/l10n/app_localizations.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -57,15 +60,18 @@ class DataHelper {
   // );
   // }
 
-  static Future<void> initTelephony() async {
-    final bool? result = await _telephony.requestSmsPermissions;
+  static Future initTelephony() async {
+    final bool? res = await _telephony.requestSmsPermissions;
+    return res;
+  }
 
-    if (result != null && result) {
-      print(">>>>>>>>>>");
-      // _telephony.listenIncomingSms(onNewMessage: backgrounMessageHandler);
-      print("<<<<<<<<<<");
-    }
-    print("result: $result>>>>>>>");
+  static Future<List?> getUsers() async {
+    final res = await _db!.query(
+      'users',
+      columns: ['id', 'name', 'phone', 'bio', 'time', 'image'],
+      orderBy: 'time DESC',
+    );
+    return res;
   }
 
   static Future<int> addUser(name, phone, bio) async {
@@ -123,6 +129,11 @@ class DataHelper {
     return res;
   }
 
+  static Future deleteAll() async {
+    final res = await _db!.delete("users");
+    return res;
+  }
+
   static Future<int> setTime(User user) async {
     DateTime now = DateTime.now();
     await _db!.update(
@@ -145,22 +156,9 @@ class DataHelper {
       columns: [SmsColumn.DATE, SmsColumn.SUBJECT, SmsColumn.BODY],
       filter: SmsFilter.where(SmsColumn.ADDRESS).equals(user.phone),
     );
-    // sent.forEach((element) {
-    //   print(element.)
-    // },);
 
     final List<SmsMessage> messages = [...inbox, ...sent];
     messages.sort((a, b) => b.date!.compareTo(a.date!));
-    // messages.forEach((element) {
-    //   print("number : " + element.address.toString());
-    //   print("subject: " + element.subject.toString());
-    //   print(">>>>>> : " + element.body!);
-    //   print(
-    //     DateFormat(
-    //       "hh:mm",
-    //     ).format(DateTime.fromMillisecondsSinceEpoch(element.date!)),
-    //   );
-    // });
     return messages;
   }
 

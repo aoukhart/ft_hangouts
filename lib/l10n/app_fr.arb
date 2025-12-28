@@ -18,5 +18,6 @@
     "seconds":"secondes",
     "minutes":"minutes",
     "hours":"heures",
-    "noContactText": "Ajoutez un contact et commencez une conversation !"
+    "noContactText": "Ajoutez un contact et commencez une conversation !",
+    "telephonyInitErrorMsg" : "Veuillez Autoriser l'appli !\nrafrechissez votre app et reesseyez"
 }
